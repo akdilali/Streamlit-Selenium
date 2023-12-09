@@ -134,8 +134,6 @@ def main():
         elapsed_time = end_time - start_time
         print(f"Elapsed Time: {elapsed_time} seconds")
         st.warning('Selenium is running, please wait...')
-        #result = run_selenium(logpath=logpath)
-        st.info(f'Result -> {result}')
         st.info('Successful finished. Selenium log file is shown below...')
         show_selenium_log(logpath=logpath)
 
