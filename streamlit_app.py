@@ -7,7 +7,10 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
-
+from datetime import datetime
+import requests
+import json
+from bs4 import BeautifulSoup
 
 @st.cache_resource(show_spinner=False)
 def get_logpath():
@@ -57,13 +60,85 @@ def show_selenium_log(logpath):
 def run_selenium(logpath):
     name = str()
     with webdriver.Chrome(options=get_webdriver_options(), service=get_webdriver_service(logpath=logpath)) as driver:
-        url = "https://www.unibet.fr/sport/football/europa-league/europa-league-matchs"
+        url = "https://www.instagram.com/accounts/login/"
         driver.get(url)
-        xpath = '//*[@class="ui-mainview-block eventpath-wrapper"]'
-        # Wait for the element to be rendered:
-        element = WebDriverWait(driver, 10).until(lambda x: x.find_elements(by=By.XPATH, value=xpath))
-        name = element[0].get_property('attributes')[0]['name']
-    return name
+        
+    time.sleep(5)  # ensure the page is fully loaded
+
+
+    #username_input = driver.find_element_by_css_selector("input[name='username']")
+    #password_input = driver.find_element_by_css_selector("input[name='password']")
+    username_input = driver.find_element(By.XPATH, '/html/body/div[2]/div/div/div[2]/div/div/div[1]/section/main/div/div/div[1]/div[2]/form/div/div[1]/div/label/input')
+    password_input = driver.find_element(By.XPATH, '/html/body/div[2]/div/div/div[2]/div/div/div[1]/section/main/div/div/div[1]/div[2]/form/div/div[2]/div/label/input')
+
+
+
+    username_input.send_keys("akdilaali")
+    password_input.send_keys("aa1trs458112")
+
+
+    login_button = driver.find_element(By.XPATH,"/html/body/div[2]/div/div/div[2]/div/div/div[1]/section/main/div/div/div[1]/div[2]/form/div/div[3]/button")
+    login_button.click()
+    time.sleep(7)
+    # Render the dynamic content to static HTML
+    html = driver.page_source
+    # print(html)
+
+    # Parse the static HTML
+    soup = BeautifulSoup(html, "html.parser")
+    #divs = soup.find("div", {"class": "flex items-center"})
+    #num = int(divs.find("span").text)
+    driver.get(video_link)
+    time.sleep(5)
+    soup = BeautifulSoup(html, "html.parser")
+    #print(soup)
+    print(soup.find_all("div",class_="_a9zs"))
+
+    """
+    comment_list = driver.find_elements(By.CLASS_NAME,'_a9zs')
+    for i in comment_list:
+        print(i.text)
+    """
+    #/html/body/div[2]/div/div/div[2]/div/div/div[1]/section/main/div[1]/div[1]/article/div/div[2]/div/div[2]/div[1]/ul/div[3]/div/div/div[2]/ul/div/li/div/div/div[2]/div[1]/span
+    #/html/body/div[2]/div/div/div[2]/div/div/div[1]/section/main/div[1]/div[1]/article/div/div[2]/div/div[2]/div[1]/ul/div[3]/div/div/div[4]/ul/div/li/div/div/div[2]/div[1]/span
+
+    while True:
+        try:
+            more_button = driver.find_element(By.XPATH,'/html/body/div[2]/div/div/div[2]/div/div/div[1]/div[1]/div[2]/section/main/div/div[1]/div/div[2]/div/div[2]/div/div/ul/div[3]/div/div/li/div/button')
+            if more_button:
+                more_button.click()                                       
+                time.sleep(5)
+                print('second_click')
+        except:
+            break
+    comment_list = driver.find_elements(By.CLASS_NAME,'_a9zs')
+    for i in comment_list:
+        st.write(i.text)
+
+
+def main():
+
+    st.sidebar.header(':blue[DENEME_sTREMALIT]', divider='blue')
+
+    video_link = st.sidebar.text_input(":blue[INPUT LINK BELOW THE FILED FOR ANALYZE]",placeholder='PASTE LINK')
+    #st.sidebar.write(':blue[VIDEO LINK:] ', video_link)
+    
+
+    if st.sidebar.button(':blue[START ANALYZE]'):
+        st.sidebar.write(':blue[VIDEO LINK:] ', video_link)
+        start_time = time.time()
+        st.markdown("<h1 style='text-align: center; color: blue;'>YouTube Comment Analysis Dashboard</h1>", unsafe_allow_html=True)
+        dasboard(video_link)
+        st.sidebar.write(":blue[Analysis finished]")
+        end_time = time.time()
+        elapsed_time = end_time - start_time
+        print(f"Elapsed Time: {elapsed_time} seconds")
+        st.warning('Selenium is running, please wait...')
+        result = run_selenium(logpath=logpath)
+        st.info(f'Result -> {result}')
+        st.info('Successful finished. Selenium log file is shown below...')
+        show_selenium_log(logpath=logpath)
+
 
 
 if __name__ == "__main__":
@@ -81,11 +156,6 @@ if __name__ == "__main__":
         Afterwards the log file of chromium is read and displayed.
         ''', unsafe_allow_html=True)
     st.markdown('---')
-
+    
     st.balloons()
-    if st.button('Start Selenium run'):
-        st.warning('Selenium is running, please wait...')
-        result = run_selenium(logpath=logpath)
-        st.info(f'Result -> {result}')
-        st.info('Successful finished. Selenium log file is shown below...')
-        show_selenium_log(logpath=logpath)
+    main()
