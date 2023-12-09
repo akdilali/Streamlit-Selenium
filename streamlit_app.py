@@ -57,7 +57,7 @@ def show_selenium_log(logpath):
         st.warning('No log file found!')
 
 
-def run_selenium(logpath):
+def run_selenium(video_link, logpath):
     name = str()
     with webdriver.Chrome(options=get_webdriver_options(), service=get_webdriver_service(logpath=logpath)) as driver:
         url = "https://www.instagram.com/accounts/login/"
@@ -128,7 +128,7 @@ def main():
         st.sidebar.write(':blue[VIDEO LINK:] ', video_link)
         start_time = time.time()
         st.markdown("<h1 style='text-align: center; color: blue;'>YouTube Comment Analysis Dashboard</h1>", unsafe_allow_html=True)
-        dasboard(video_link)
+        run_selenium(video_link)
         st.sidebar.write(":blue[Analysis finished]")
         end_time = time.time()
         elapsed_time = end_time - start_time
