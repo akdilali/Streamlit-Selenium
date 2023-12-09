@@ -128,7 +128,7 @@ def main():
         st.sidebar.write(':blue[VIDEO LINK:] ', video_link)
         start_time = time.time()
         st.markdown("<h1 style='text-align: center; color: blue;'>YouTube Comment Analysis Dashboard</h1>", unsafe_allow_html=True)
-        run_selenium(video_link)
+        run_selenium(video_link,logpath)
         st.sidebar.write(":blue[Analysis finished]")
         end_time = time.time()
         elapsed_time = end_time - start_time
