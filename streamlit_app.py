@@ -63,57 +63,57 @@ def run_selenium(video_link, logpath):
         url = "https://www.instagram.com/accounts/login/"
         driver.get(url)
         
-    time.sleep(5)  # ensure the page is fully loaded
-
-
-    #username_input = driver.find_element_by_css_selector("input[name='username']")
-    #password_input = driver.find_element_by_css_selector("input[name='password']")
-    username_input = driver.find_element(By.XPATH, '/html/body/div[2]/div/div/div[2]/div/div/div[1]/section/main/div/div/div[1]/div[2]/form/div/div[1]/div/label/input')
-    password_input = driver.find_element(By.XPATH, '/html/body/div[2]/div/div/div[2]/div/div/div[1]/section/main/div/div/div[1]/div[2]/form/div/div[2]/div/label/input')
-
-
-
-    username_input.send_keys("akdilaali")
-    password_input.send_keys("aa1trs458112")
-
-
-    login_button = driver.find_element(By.XPATH,"/html/body/div[2]/div/div/div[2]/div/div/div[1]/section/main/div/div/div[1]/div[2]/form/div/div[3]/button")
-    login_button.click()
-    time.sleep(7)
-    # Render the dynamic content to static HTML
-    html = driver.page_source
-    # print(html)
-
-    # Parse the static HTML
-    soup = BeautifulSoup(html, "html.parser")
-    #divs = soup.find("div", {"class": "flex items-center"})
-    #num = int(divs.find("span").text)
-    driver.get(video_link)
-    time.sleep(5)
-    soup = BeautifulSoup(html, "html.parser")
-    #print(soup)
-    print(soup.find_all("div",class_="_a9zs"))
-
-    """
-    comment_list = driver.find_elements(By.CLASS_NAME,'_a9zs')
-    for i in comment_list:
-        print(i.text)
-    """
-    #/html/body/div[2]/div/div/div[2]/div/div/div[1]/section/main/div[1]/div[1]/article/div/div[2]/div/div[2]/div[1]/ul/div[3]/div/div/div[2]/ul/div/li/div/div/div[2]/div[1]/span
-    #/html/body/div[2]/div/div/div[2]/div/div/div[1]/section/main/div[1]/div[1]/article/div/div[2]/div/div[2]/div[1]/ul/div[3]/div/div/div[4]/ul/div/li/div/div/div[2]/div[1]/span
-
-    while True:
-        try:
-            more_button = driver.find_element(By.XPATH,'/html/body/div[2]/div/div/div[2]/div/div/div[1]/div[1]/div[2]/section/main/div/div[1]/div/div[2]/div/div[2]/div/div/ul/div[3]/div/div/li/div/button')
-            if more_button:
-                more_button.click()                                       
-                time.sleep(5)
-                print('second_click')
-        except:
-            break
-    comment_list = driver.find_elements(By.CLASS_NAME,'_a9zs')
-    for i in comment_list:
-        st.write(i.text)
+        time.sleep(5)  # ensure the page is fully loaded
+        
+    
+        #username_input = driver.find_element_by_css_selector("input[name='username']")
+        #password_input = driver.find_element_by_css_selector("input[name='password']")
+        username_input = driver.find_element(By.XPATH, '/html/body/div[2]/div/div/div[2]/div/div/div[1]/section/main/div/div/div[1]/div[2]/form/div/div[1]/div/label/input')
+        password_input = driver.find_element(By.XPATH, '/html/body/div[2]/div/div/div[2]/div/div/div[1]/section/main/div/div/div[1]/div[2]/form/div/div[2]/div/label/input')
+    
+    
+    
+        username_input.send_keys("akdilaali")
+        password_input.send_keys("aa1trs458112")
+    
+    
+        login_button = driver.find_element(By.XPATH,"/html/body/div[2]/div/div/div[2]/div/div/div[1]/section/main/div/div/div[1]/div[2]/form/div/div[3]/button")
+        login_button.click()
+        time.sleep(7)
+        # Render the dynamic content to static HTML
+        html = driver.page_source
+        # print(html)
+    
+        # Parse the static HTML
+        soup = BeautifulSoup(html, "html.parser")
+        #divs = soup.find("div", {"class": "flex items-center"})
+        #num = int(divs.find("span").text)
+        driver.get(video_link)
+        time.sleep(5)
+        soup = BeautifulSoup(html, "html.parser")
+        #print(soup)
+        print(soup.find_all("div",class_="_a9zs"))
+    
+        """
+        comment_list = driver.find_elements(By.CLASS_NAME,'_a9zs')
+        for i in comment_list:
+            print(i.text)
+        """
+        #/html/body/div[2]/div/div/div[2]/div/div/div[1]/section/main/div[1]/div[1]/article/div/div[2]/div/div[2]/div[1]/ul/div[3]/div/div/div[2]/ul/div/li/div/div/div[2]/div[1]/span
+        #/html/body/div[2]/div/div/div[2]/div/div/div[1]/section/main/div[1]/div[1]/article/div/div[2]/div/div[2]/div[1]/ul/div[3]/div/div/div[4]/ul/div/li/div/div/div[2]/div[1]/span
+    
+        while True:
+            try:
+                more_button = driver.find_element(By.XPATH,'/html/body/div[2]/div/div/div[2]/div/div/div[1]/div[1]/div[2]/section/main/div/div[1]/div/div[2]/div/div[2]/div/div/ul/div[3]/div/div/li/div/button')
+                if more_button:
+                    more_button.click()                                       
+                    time.sleep(5)
+                    print('second_click')
+            except:
+                break
+        comment_list = driver.find_elements(By.CLASS_NAME,'_a9zs')
+        for i in comment_list:
+            st.write(i.text)
 
 
 def main():
